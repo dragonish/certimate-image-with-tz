@@ -8,7 +8,7 @@ RUN \
 
 FROM golang:1.25-alpine AS server-builder
 WORKDIR /app
-COPY ../. /app/
+COPY certimate /app/
 RUN rm -rf /app/ui/dist
 COPY --from=webui-builder /app/ui/dist /app/ui/dist
 ENV CGO_ENABLED=0
