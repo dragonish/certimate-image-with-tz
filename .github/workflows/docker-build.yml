@@ -47,6 +47,6 @@ jobs:
         with:
           url: ${{ secrets.GOTIFY_URL }}
           token: ${{ secrets.GOTIFY_TOKEN }}
-          title: ${{ gitea.repository }}
-          message: "Build ${{ github.event.inputs.version && (env.DOCKERHUB_REPO + ':' + github.event.inputs.version) || (env.DOCKERHUB_REPO + ':latest') }}\n\n*status: ${{ job.status }}*"
+          title: ${{ github.repository }}
+          message: "Build ${{ github.event.inputs.version && format('{0}:{1}', env.DOCKERHUB_REPO, github.event.inputs.version) || format('{0}:{1}', env.DOCKERHUB_REPO, 'latest') }}\n\n*status: ${{ job.status }}*"
           content-type: 'text/markdown'
