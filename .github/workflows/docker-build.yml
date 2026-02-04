@@ -14,6 +14,9 @@ env:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      GOTIFY_URL: ${{ secrets.GOTIFY_URL }}
+      GOTIFY_TOKEN: ${{ secrets.GOTIFY_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,7 +45,7 @@ jobs:
           platforms: |
             linux/amd64
       - name: Send notification
-        if: ${{ !cancelled() && secrets.GOTIFY_URL != '' && secrets.GOTIFY_TOKEN != '' }}
+        if: ${{ !cancelled() && env.GOTIFY_URL != '' && env.GOTIFY_TOKEN != '' }}
         uses: dragonish/send-to-gotify@v1
         with:
           url: ${{ secrets.GOTIFY_URL }}
