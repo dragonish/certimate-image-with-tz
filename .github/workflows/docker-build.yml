@@ -2,6 +2,11 @@ name: docker-build
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Image version tag (optional)'
+        required: false
+        type: string
 
 env:
   DOCKERHUB_REPO: giterhub/certimate
@@ -33,5 +38,6 @@ jobs:
           context: .
           tags: |
             ${{ env.DOCKERHUB_REPO }}:latest
+            ${{ github.event.inputs.version && format('{0}:{1}', env.DOCKERHUB_REPO, github.event.inputs.version) || '' }}
           platforms: |
             linux/amd64
