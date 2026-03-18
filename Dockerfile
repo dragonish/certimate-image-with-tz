@@ -15,6 +15,7 @@ ENV CGO_ENABLED=0
 RUN go build -trimpath -ldflags="-s -w" -o certimate
 
 FROM alpine:latest
+LABEL org.opencontainers.image.url="https://github.com/dragonish/certimate-image-with-tz"
 ENV TZ=UTC
 RUN apk add tzdata
 WORKDIR /app
