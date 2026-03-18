@@ -15,7 +15,7 @@ ENV CGO_ENABLED=0
 RUN go build -trimpath -ldflags="-s -w" -o certimate
 
 FROM alpine:latest
-ENV TZ UTC
+ENV TZ=UTC
 RUN apk add tzdata
 WORKDIR /app
 COPY --from=server-builder /app/certimate .
