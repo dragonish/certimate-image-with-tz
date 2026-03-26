@@ -15,8 +15,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     env:
-      GOTIFY_URL: ${{ secrets.GOTIFY_URL }}
-      GOTIFY_TOKEN: ${{ secrets.GOTIFY_TOKEN }}
+      NTFY_URL: ${{ secrets.NTFY_URL }}
+      NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+      NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -45,11 +46,14 @@ jobs:
           platforms: |
             linux/amd64
       - name: Send notification
-        if: ${{ !cancelled() && env.GOTIFY_URL != '' && env.GOTIFY_TOKEN != '' }}
-        uses: dragonish/send-to-gotify@v1
+        if: ${{ !cancelled() && env.NTFY_URL != '' && env.NTFY_TOKEN != '' && env.NTFY_TOPIC != '' }}
+        uses: dragonish/send-to-ntfy@v1
         with:
-          url: ${{ secrets.GOTIFY_URL }}
-          token: ${{ secrets.GOTIFY_TOKEN }}
+          base-url: ${{ secrets.NTFY_URL }}
+          topic: ${{ secrets.NTFY_TOPIC }}
+          access-token: ${{ secrets.NTFY_TOKEN }}
           title: ${{ github.repository }}
-          message: "Build ${{ github.event.inputs.version && format('{0}:{1}', env.DOCKERHUB_REPO, github.event.inputs.version) || format('{0}:{1}', env.DOCKERHUB_REPO, 'latest') }}\n\n*status: ${{ job.status }}*"
-          content-type: 'text/markdown'
+          message: "Build ${{ github.event.inputs.version && format('{0}:{1}', env.DOCKERHUB_REPO, github.event.inputs.version) || format('{0}:{1}', env.DOCKERHUB_REPO, 'latest') }}"
+          tags: "GitHub,Docker,building_construction,${{ job.status }}"
+          priority: 2
+          actions: '[{"action": "view", "label": "View GitHub", "url": "https://github.com/${{ github.repository }}"}, {"action": "view", "label": "View Docker Hub", "url": "https://hub.docker.com/r/${{ env.DOCKERHUB_REPO }}"}]'
