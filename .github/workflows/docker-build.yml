@@ -24,6 +24,7 @@ jobs:
       - name: Clone Repository
         uses: GuillaumeFalourd/clone-github-repo-action@v2
         with:
+          submodule: true
           owner: 'certimate-go'
           repository: 'certimate'
       - name: Set up QEMU
