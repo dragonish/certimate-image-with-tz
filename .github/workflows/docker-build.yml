@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Clone Repository
-        uses: GuillaumeFalourd/clone-github-repo-action@v2
+        uses: GuillaumeFalourd/clone-github-repo-action@v2.3
         with:
           submodule: true
           owner: 'certimate-go'
