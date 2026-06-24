@@ -21,16 +21,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Rewrite SSH Git URLs to HTTPS
+      - name: Clone Repository
         run: |
           git config --global url."https://github.com/".insteadOf "git@github.com:"
           git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-      - name: Clone Repository
-        uses: GuillaumeFalourd/clone-github-repo-action@v2.3
-        with:
-          submodule: true
-          owner: 'certimate-go'
-          repository: 'certimate'
+          git clone --recursive https://github.com/certimate-go/certimate.git
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
       - name: Set up Docker Buildx
