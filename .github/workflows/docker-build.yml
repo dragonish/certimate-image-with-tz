@@ -23,9 +23,14 @@ jobs:
         uses: actions/checkout@v6
       - name: Clone Repository
         run: |
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
-          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-          git clone --recursive https://github.com/certimate-go/certimate.git
+          git clone https://github.com/certimate-go/certimate.git
+
+          cd certimate
+
+          git config -f .gitmodules submodule.pkg/sdk3rd-forked.url https://github.com/certimate-go/.deps-repo-go.git
+
+          git submodule sync --recursive
+          git submodule update --init --recursive
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
       - name: Set up Docker Buildx
